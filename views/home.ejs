@@ -1,0 +1,114 @@
+<%- include('html_head')%>
+  <style>
+    body {
+      background-color: #DAE0E6;
+      padding-top: 10vh;
+    }
+
+  nav{
+    background-color: rgb(255, 255, 255);
+    position: fixed !important;
+    width: 100vw;
+    top: 0;
+    z-index: 200;
+  }
+
+  </style>
+
+  <nav class="navbar navbar-expand-lg py-3 px-5">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-2" href="/home">CheckIt</a>
+      <h1 class="navbar-brand my-auto fs-5 me-5"> Welcome <span class="text-success ms-2"> <%= user.username%> </span></h1>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link fs-6 mx-2 my-auto" aria-current="page" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-6 mx-2 my-auto" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-6 mx-2 my-auto" href="/ownProfile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-6 mx-2 my-auto" href="/writePost">Write</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-6 mx-2 my-auto" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <style>
+    .profilePic {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .postPic {
+      object-fit: cover;
+      /* scale: .7; */
+      height: 100%;
+      ;
+      width: 100%;
+    }
+    a{
+      text-decoration: none;
+      color: #000;
+    }
+    
+  </style>
+
+  <% posts.forEach(function(obj){ %>
+
+    <div class="card m-auto my-4 p-2 overflow-hidden" style="width: 38rem;">
+
+      <div class="user_detail ">
+        <div class="d-flex align-items-center">
+          <img class="profilePic" src="/uploads/<%= obj.author.avatar%>" alt="">
+          <h4 class="ms-2 my-auto">
+            <%= obj.author.username%>
+          </h4>
+        </div>
+
+      </div>
+      <% obj.blog.forEach(function(odd){ %>
+
+        <div class="userBlog w-100">
+          <% if( odd.type==='header' ){%>
+            <h6 class="mt-2">
+              <%= odd.data.text%>
+            </h6>
+            <% } else if(odd.type==='paragraph' ) { %>
+              <p class="my-1">
+                <%= odd.data.text%>
+              </p>
+              <% } else if(odd.type==='image' ) { %>
+                <img class="postPic" src="<%= odd.data.file.url%>" alt="">
+            
+                
+              <%}%>
+        </div>
+
+        <%})%>
+          <div class="reactionDiv d-flex">
+            <i class="mx-2 fs-5 ri-thumb-up-line"></i>
+            <i class="mx-2 fs-5 ri-thumb-down-line"></i>
+            <a href="/savePost/<%= obj._id%>"><i class="mx-2 fs-5 ri-bookmark-line"></i></a>
+          </div>
+
+    </div>
+    <%})%>
+
+    <script>
+
+      // document.querySelector(".ri-bookmark-line").addEventListener("click",function(){
+      //   document.querySelector(".ri-bookmark-line").className = "ri-bookmark-fill"
+      // })
+
+
+    </script>
+<%- include('html_foot')%>
